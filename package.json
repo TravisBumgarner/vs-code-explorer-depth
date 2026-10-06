@@ -1,0 +1,157 @@
+{
+	"name": "explorer-nesting-colors",
+	"displayName": "Explorer Nesting Colors",
+	"description": "Colors Explorer indent guides by nesting depth and thickens the active folder's guide. Labels keep your theme's colors.",
+	"version": "0.1.0",
+	"publisher": "travisbumgarner",
+	"license": "MIT",
+	"engines": {
+		"vscode": "^1.90.0"
+	},
+	"categories": [
+		"Themes",
+		"Other"
+	],
+	"keywords": [
+		"explorer",
+		"indent",
+		"guides",
+		"nesting",
+		"tree"
+	],
+	"main": "./dist/extension.js",
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"extensionKind": [
+		"ui"
+	],
+	"contributes": {
+		"commands": [
+			{
+				"command": "explorerNesting.enable",
+				"title": "Enable",
+				"category": "Explorer Nesting"
+			},
+			{
+				"command": "explorerNesting.disable",
+				"title": "Disable",
+				"category": "Explorer Nesting"
+			},
+			{
+				"command": "explorerNesting.reload",
+				"title": "Reload",
+				"category": "Explorer Nesting"
+			}
+		],
+		"configuration": {
+			"title": "Explorer Nesting Colors",
+			"properties": {
+				"explorerNesting.palette": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"spectrum",
+								"cool",
+								"themeAccent"
+							],
+							"enumDescriptions": [
+								"Amber, blue, violet, teal, rose.",
+								"Blues, teals and violet.",
+								"Shades of the default VS Code accent blue."
+							]
+						},
+						{
+							"type": "array",
+							"items": {
+								"type": "string",
+								"pattern": "^#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$"
+							},
+							"minItems": 1
+						}
+					],
+					"default": "spectrum",
+					"markdownDescription": "Guide colors by depth. A preset name (with dark and light variants), or an array of hex colors used for every theme. Depth `i` uses `palette[i % length]`."
+				},
+				"explorerNesting.sectionBackgrounds": {
+					"type": "string",
+					"enum": [
+						"off",
+						"guides",
+						"full"
+					],
+					"enumDescriptions": [
+						"No background tint.",
+						"Tint each indent column with its depth color.",
+						"Also tint each row with its parent folder's color, so every folder's contents read as a colored block."
+					],
+					"default": "off",
+					"description": "Tint the background of each nesting section. Labels keep their theme colors."
+				},
+				"explorerNesting.sectionOpacity": {
+					"type": "integer",
+					"minimum": 3,
+					"maximum": 30,
+					"default": 8,
+					"description": "Section tint strength in percent. The active folder's section uses double."
+				},
+				"explorerNesting.guideWidth": {
+					"type": "integer",
+					"minimum": 1,
+					"maximum": 3,
+					"default": 1,
+					"description": "Width in pixels of indent guides."
+				},
+				"explorerNesting.activeGuideWidth": {
+					"type": "integer",
+					"minimum": 2,
+					"maximum": 6,
+					"default": 3,
+					"description": "Width in pixels of the guide spanning the active folder's subtree."
+				},
+				"explorerNesting.indent": {
+					"type": "integer",
+					"minimum": 8,
+					"maximum": 20,
+					"default": 12,
+					"markdownDescription": "Tree indent in pixels. Written through to `#workbench.tree.indent#`."
+				},
+				"explorerNesting.tintFolderIcons": {
+					"type": "boolean",
+					"default": true,
+					"description": "Tint folder twisties and font-based folder icons with their depth color. Labels are never recolored."
+				},
+				"explorerNesting.dimInactiveGuides": {
+					"type": "boolean",
+					"default": false,
+					"description": "Drop non-active guides to 40% opacity (instead of 85%)."
+				},
+				"explorerNesting.fixChecksums": {
+					"type": "boolean",
+					"default": false,
+					"markdownDescription": "Also update the `workbench.html` checksum in VS Code's `product.json` so the \"installation appears to be corrupt\" warning doesn't appear. Restored on disable."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run build -- --minify",
+		"vscode:uninstall": "node ./dist/uninstall.js",
+		"build": "esbuild src/extension.ts src/uninstall.ts --bundle --outdir=dist --platform=node --format=cjs --target=node20 --external:vscode --sourcemap",
+		"watch": "npm run build -- --watch",
+		"typecheck": "tsc --noEmit",
+		"lint": "biome check .",
+		"test": "vitest run",
+		"package": "vsce package"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.15",
+		"@types/node": "^22.0.0",
+		"@types/vscode": "~1.90.0",
+		"@vscode/vsce": "^4.0.0",
+		"esbuild": "^0.28.2",
+		"typescript": "^5.9.0",
+		"vitest": "^5.0.3"
+	}
+}
