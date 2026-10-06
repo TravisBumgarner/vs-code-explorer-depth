@@ -2,6 +2,8 @@
 
 Colors the Explorer's indent guides by nesting depth and draws the active folder's guide thicker. File and folder names keep your theme's colors.
 
+![The Explorer with a ten-level nested folder tree. Each depth's indent guide and folder twistie has its own color from the spectrum palette, and the selected file's parent guide is drawn thicker.](docs/demo.png)
+
 > **This extension modifies VS Code's installation files.** VS Code's extension API can't color indent guides per depth, so the extension injects a stylesheet into `workbench.html`, the same way "Custom CSS and JS Loader" and APC do. Read [the corrupt-install warning](#the-installation-appears-to-be-corrupt-warning) and [Uninstalling](#uninstalling) before you enable it.
 
 ## Setup
